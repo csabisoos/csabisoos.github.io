@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+body {
+  @apply min-h-screen font-sans;
+}
+
+::selection {
+  @apply bg-zinc-300 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100;
+}
+
+a {
+  @apply underline-offset-4 transition-colors duration-200;
+}
+
+a:hover {
+  @apply text-zinc-700 dark:text-zinc-300;
+}
+
+.prompt {
+  @apply font-mono text-sm text-zinc-500 dark:text-zinc-400;
+}
+
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
