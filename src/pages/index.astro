@@ -1,95 +1,160 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
+import MederiShowcase from '../components/MederiShowcase.astro';
 import profileData from '../data/profile.json';
 import type { Profile } from '../types/profile';
 
 const profile = profileData as Profile;
+
+// Load the featured project (Mederi)
+const allProjects = await getCollection('projects');
+const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[0];
 ---
 
 <BaseLayout title={profile.name} description={profile.shortBio}>
-  <header class="sticky top-4 z-50 mb-12 pt-4">
-    <nav class="mx-auto flex w-full max-w-2xl items-center justify-between rounded-full border border-neutral-800/60 bg-neutral-950/80 px-5 py-2.5 backdrop-blur-md">
-      <p class="mono text-xs tracking-tight text-neutral-400">csabisoos://portfolio</p>
-      <div class="flex items-center gap-4">
-        <a class="mono text-xs tracking-tight text-neutral-300 hover:text-white" href="#focus">Focus</a>
-        <a class="mono text-xs tracking-tight text-neutral-300 hover:text-white" href="#track">Track</a>
-        <a class="mono text-xs tracking-tight text-neutral-300 hover:text-white" href={profile.contact.email}>Contact</a>
+
+  <!-- ─── Sticky Navbar ─────────────────────────────────────────────── -->
+  <header class="sticky top-4 z-50 mb-14 pt-4">
+    <nav
+      aria-label="Site navigation"
+      class="mx-auto flex w-full items-center justify-between rounded-full border border-zinc-800/60 bg-zinc-950/80 px-5 py-2.5 backdrop-blur-md"
+    >
+      <!-- Brand -->
+      <p class="mono text-xs tracking-tight text-zinc-400">csabisoos://portfolio</p>
+
+      <!-- Nav links -->
+      <div class="flex items-center gap-1">
+        <a class="nav-pill no-underline" href="#projects">Projects</a>
+        <a class="nav-pill no-underline" href="#focus">Focus</a>
+        <a class="nav-pill no-underline" href="#track">Track</a>
+        <a class="nav-pill no-underline" href={profile.contact.email}>Contact</a>
       </div>
     </nav>
   </header>
 
-  <section class="rounded-3xl border border-neutral-800/70 bg-neutral-900/30 p-8 backdrop-blur-sm transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60 md:p-10">
-    <span class="mono inline-flex rounded-full border border-neutral-800/80 bg-neutral-950/80 px-3 py-1 text-xs text-neutral-300">
-      {profile.location}
-    </span>
-    <h1 class="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">{profile.name}</h1>
-    <p class="mt-3 text-xl tracking-tight text-neutral-200">{profile.title}</p>
-    <p class="mt-4 max-w-3xl text-neutral-400">{profile.shortBio}</p>
+  <!-- ─── Hero / Profile ───────────────────────────────────────────── -->
+  <section aria-labelledby="hero-name" class="animate-fade-in-up">
+    <!-- Top row: location + availability -->
+    <div class="flex flex-wrap items-center gap-2.5">
+      <span class="mono inline-flex items-center gap-1.5 rounded-full border border-zinc-800/60 bg-zinc-950/70 px-3 py-1 text-xs text-zinc-400">
+        <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/>
+        </svg>
+        {profile.location}
+      </span>
+      {profile.availability && (
+        <span class="badge-status clear">
+          <span class="pulse-dot h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block"></span>
+          {profile.availability}
+        </span>
+      )}
+    </div>
 
-    <div class="mt-8">
+    <!-- Name + title -->
+    <h1 id="hero-name" class="mt-5 text-5xl font-bold tracking-tight text-white sm:text-6xl">
+      {profile.name}
+    </h1>
+    <p class="mt-3 text-xl font-medium tracking-tight text-zinc-300">
+      {profile.title}
+    </p>
+    <p class="mt-4 max-w-2xl leading-relaxed text-zinc-400">
+      {profile.shortBio}
+    </p>
+
+    <!-- Social links -->
+    <div class="mt-7">
       <SocialLinks profiles={profile.socialProfiles} />
     </div>
   </section>
 
-  <section id="focus" class="mt-10 rounded-3xl border border-neutral-800/70 bg-neutral-900/30 p-8 backdrop-blur-sm transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60 md:p-10">
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <h2 class="text-2xl font-semibold tracking-tight text-white">Expertise & Focus Areas</h2>
-      <p class="mono text-xs text-neutral-500">Academic track: UPV/EHU</p>
-    </div>
-    <div class="mt-6 flex flex-wrap gap-3">
-      {
-        profile.focusAreas.map((area) => (
-          <span class="mono inline-flex rounded-full border border-neutral-800/70 bg-neutral-950/70 px-3 py-1.5 text-xs text-neutral-300 transition-all duration-200 hover:border-neutral-700 hover:text-white">
-            {area}
-          </span>
-        ))
-      }
+  <!-- ─── Featured Project: Mederi ────────────────────────────────── -->
+  {featuredProject && (
+    <section id="projects" class="mt-14">
+      <div class="mb-5 flex items-center justify-between">
+        <p class="section-label">Featured Project</p>
+        <a href="/projects/mederi" class="mono text-xs text-zinc-500 hover:text-zinc-300 no-underline transition-colors">
+          View all →
+        </a>
+      </div>
+      <MederiShowcase project={featuredProject} />
+    </section>
+  )}
+
+  <!-- ─── Expertise & Focus ────────────────────────────────────────── -->
+  <section id="focus" class="mt-14 animate-fade-in-up delay-300">
+    <div class="card-glass rounded-3xl p-8 md:p-10">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h2 class="text-2xl font-semibold tracking-tight text-white">Expertise & Focus Areas</h2>
+        <span class="mono text-xs text-zinc-500">Academic: UPV/EHU · 2026–2027</span>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-2.5">
+        {profile.focusAreas.map((area) => (
+          <span class="tag">{area}</span>
+        ))}
+      </div>
+
+      {profile.techStack && profile.techStack.length > 0 && (
+        <div class="mt-8">
+          <p class="section-label mb-4">Technology Stack</p>
+          <div class="flex flex-wrap gap-2">
+            {profile.techStack.map((tech) => (
+              <span class="tag tag-emerald">{tech}</span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   </section>
 
-  <section id="track" class="mt-10 rounded-3xl border border-neutral-800/70 bg-neutral-900/30 p-8 backdrop-blur-sm transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60 md:p-10">
-    <h2 class="text-2xl font-semibold tracking-tight text-white">Career & Academic Track</h2>
-    <div class="mt-8 grid gap-8 lg:grid-cols-2">
-      <div>
-        <p class="mono text-xs uppercase tracking-[0.2em] text-neutral-500">Experience</p>
-        <div class="mt-4 space-y-4">
-          {
-            profile.experience.map((entry) => (
-              <article class="rounded-2xl border border-neutral-800/70 bg-neutral-900/30 p-5 transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60">
-                <p class="mono text-xs text-neutral-500">{entry.period}</p>
-                <h3 class="mt-2 text-lg font-semibold tracking-tight text-white">{entry.role}</h3>
-                <p class="mono mt-1 text-sm text-neutral-300">{entry.organization}</p>
-                <p class="mt-3 text-sm text-neutral-400">{entry.focus}</p>
-              </article>
-            ))
-          }
-        </div>
-      </div>
+  <!-- ─── Career & Academic Track ─────────────────────────────────── -->
+  <section id="track" class="mt-10 animate-fade-in-up delay-400">
+    <div class="card-glass rounded-3xl p-8 md:p-10">
+      <h2 class="text-2xl font-semibold tracking-tight text-white">Career & Academic Track</h2>
 
-      <div>
-        <p class="mono text-xs uppercase tracking-[0.2em] text-neutral-500">Education</p>
-        <div class="mt-4 space-y-4">
-          {
-            profile.education.map((entry) => (
-              <article class="rounded-2xl border border-neutral-800/70 bg-neutral-900/30 p-5 transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60">
-                <p class="mono text-xs text-neutral-500">{entry.period}</p>
-                <h3 class="mt-2 text-lg font-semibold tracking-tight text-white">{entry.degree}</h3>
-                <p class="mono mt-1 text-sm text-neutral-300">{entry.institution}</p>
-                <p class="mt-3 text-sm text-neutral-400">{entry.focus}</p>
+      <div class="mt-8 grid gap-8 lg:grid-cols-2">
+        <!-- Experience column -->
+        <div>
+          <p class="section-label mb-4">Experience</p>
+          <div class="space-y-3">
+            {profile.experience.map((entry) => (
+              <article class="pillar-card rounded-2xl p-5">
+                <p class="mono text-xs text-zinc-500">{entry.period}</p>
+                <h3 class="mt-2 text-base font-semibold tracking-tight text-white">{entry.role}</h3>
+                <p class="mono mt-1 text-xs text-zinc-300">{entry.organization}</p>
+                <p class="mt-3 text-sm leading-relaxed text-zinc-400">{entry.focus}</p>
               </article>
-            ))
-          }
+            ))}
+          </div>
+        </div>
+
+        <!-- Education column -->
+        <div>
+          <p class="section-label mb-4">Education</p>
+          <div class="space-y-3">
+            {profile.education.map((entry) => (
+              <article class="pillar-card rounded-2xl p-5">
+                <p class="mono text-xs text-zinc-500">{entry.period}</p>
+                <h3 class="mt-2 text-base font-semibold tracking-tight text-white">{entry.degree}</h3>
+                <p class="mono mt-1 text-xs text-zinc-300">{entry.institution}</p>
+                <p class="mt-3 text-sm leading-relaxed text-zinc-400">{entry.focus}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800/70 pt-8">
-    <p class="mono text-xs text-neutral-500">{new Date().toISOString()}</p>
-    <p class="text-xs text-neutral-500">© {new Date().getFullYear()} {profile.name}</p>
-    <a class="mono text-xs text-neutral-400 hover:text-white" href={profile.contact.email}>
+  <!-- ─── Footer ──────────────────────────────────────────────────── -->
+  <footer class="mt-16 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-800/60 pt-8">
+    <p class="mono text-xs text-zinc-600">{new Date().toISOString()}</p>
+    <p class="text-xs text-zinc-500">© {new Date().getFullYear()} {profile.name}</p>
+    <a class="mono text-xs text-zinc-500 hover:text-zinc-300 no-underline transition-colors" href={profile.contact.email}>
       {profile.contact.email.replace('mailto:', '')}
     </a>
   </footer>
+
 </BaseLayout>

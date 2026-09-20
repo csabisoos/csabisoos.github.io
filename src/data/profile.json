@@ -1,14 +1,22 @@
 {
   "name": "Csaba Soós",
-  "title": "Software Engineer & Computer Science Researcher",
-  "shortBio": "Focused on robust software engineering, intelligent systems, and scalable architectures.",
+  "title": "Software Engineer & CS Researcher",
+  "shortBio": "Building robust software at the intersection of intelligent systems, healthcare engineering, and scalable architectures. Currently engineering C# .NET medical device software at B. Braun while researching Deep Reinforcement Learning and NLP at UPV/EHU.",
   "location": "Budapest, Hungary",
+  "availability": "Open to systems & AI engineering opportunities",
   "focusAreas": [
     "Intelligent Systems",
-    "Natural Language Processing (NLP)",
+    "Natural Language Processing",
     "Reinforcement Learning",
     "Deep Reinforcement Learning",
-    "Business Analysis"
+    "Healthcare Systems Engineering",
+    "On-Premise AI"
+  ],
+  "techStack": [
+    "Python", "C#", ".NET", "TypeScript",
+    "FastAPI", "LangChain", "FAISS",
+    "HL7 FHIR R4", "SQLite", "SQLAlchemy",
+    "Streamlit", "Astro"
   ],
   "contact": {
     "email": "mailto:csabi.soos.05@gmail.com",
@@ -46,21 +54,22 @@
       "role": "Software Engineer Intern",
       "organization": "B. Braun",
       "period": "2025 – Present",
-      "focus": "C#, .NET ecosystem, modern desktop UI architectures, healthcare systems engineering, and asynchronous pipelines."
+      "focus": "C#, .NET ecosystem, modern desktop UI architectures, healthcare systems engineering, and asynchronous pipelines in a regulated medical device environment."
     }
   ],
   "education": [
     {
-      "degree": "BSc in Computer Science (Software Development specialization)",
+      "degree": "BSc Computer Science — Software Development",
       "institution": "Eötvös Loránd University (ELTE IK), Budapest",
       "period": "2024 – Present",
       "focus": "Software engineering foundations, systems design, and production-oriented development."
     },
     {
-      "degree": "Academic Studies Exchange",
+      "degree": "Academic Exchange — Intelligent Systems",
       "institution": "University of the Basque Country (UPV/EHU)",
       "period": "2026 – 2027",
       "focus": "Intelligent Systems, Deep Reinforcement Learning, and Natural Language Processing."
     }
-  ]
+  ],
+  "featuredProject": "mederi"
 }

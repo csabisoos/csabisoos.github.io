@@ -23,7 +23,9 @@ export interface Profile {
   title: string;
   shortBio: string;
   location: string;
+  availability?: string;
   focusAreas: string[];
+  techStack?: string[];
   contact: {
     email: string;
     cv: string;
@@ -31,4 +33,5 @@ export interface Profile {
   socialProfiles: SocialProfile[];
   experience: ExperienceEntry[];
   education: EducationEntry[];
+  featuredProject?: string;
 }

@@ -4,33 +4,77 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  ogImage?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = ogImage ?? `${Astro.site}og-default.png`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Csaba Soós",
+  "url": Astro.site?.toString(),
+  "sameAs": [
+    "https://github.com/csabisoos",
+    "https://www.linkedin.com/in/csaba-soós-4b55a93a3",
+    "https://instagram.com/csabi.soos"
+  ],
+  "jobTitle": "Software Engineer & Computer Science Researcher",
+  "worksFor": { "@type": "Organization", "name": "B. Braun" },
+  "alumniOf": { "@type": "Organization", "name": "Eötvös Loránd University" }
+};
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary SEO -->
+    <title>{title} — Csaba Soós</title>
     <meta name="description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical.toString()} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
     <link rel="canonical" href={canonical.toString()} />
-    <title>{title}</title>
+
+    <!-- OpenGraph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content={`${title} — Csaba Soós`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url"         content={canonical.toString()} />
+    <meta property="og:image"       content={ogImageUrl} />
+    <meta property="og:locale"      content="en_US" />
+    <meta property="og:site_name"   content="Csaba Soós — Portfolio" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={`${title} — Csaba Soós`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={ogImageUrl} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Google Fonts: Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen bg-neutral-950 text-neutral-100">
-    <div aria-hidden="true" class="ambient-radial fixed inset-0 -z-20" />
-    <div aria-hidden="true" class="ambient-dot fixed inset-0 -z-10" />
-    <main class="mx-auto w-full max-w-6xl px-6 pb-16 md:px-12">
+  <body class="min-h-screen text-zinc-100" style="background-color: var(--surface-base);">
+    <!-- Ambient backgrounds -->
+    <div aria-hidden="true" class="ambient-radial fixed inset-0 -z-20 pointer-events-none" />
+    <div aria-hidden="true" class="ambient-dot    fixed inset-0 -z-10 pointer-events-none" />
+
+    <!-- Main content wrapper -->
+    <main class="mx-auto w-full max-w-5xl px-5 pb-20 md:px-10">
       <slot />
     </main>
   </body>
