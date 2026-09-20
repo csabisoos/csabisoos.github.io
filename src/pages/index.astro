@@ -1,21 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import profileData from '../data/profile.json';
 import type { Profile } from '../types/profile';
 
 const profile = profileData as Profile;
-
-const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const publications = (await getCollection('publications')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const writing = (await getCollection('writing')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
 ---
 
 <BaseLayout title={`${profile.name} — Portfolio`} description={profile.shortBio}>
@@ -71,41 +60,17 @@ const writing = (await getCollection('writing')).sort(
   <section class="mt-10 grid gap-6 md:grid-cols-3">
     <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
       <h2 class="text-base font-semibold text-white">Selected Projects</h2>
-      {
-        projects.length > 0 ? (
-          <ul class="mt-4 space-y-3">
-            {projects.slice(0, 3).map((project) => <li class="text-sm text-neutral-300">{project.data.title}</li>)}
-          </ul>
-        ) : (
-          <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
-        )
-      }
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
     </article>
 
     <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
       <h2 class="text-base font-semibold text-white">Academic Work</h2>
-      {
-        publications.length > 0 ? (
-          <ul class="mt-4 space-y-3">
-            {publications.slice(0, 3).map((publication) => <li class="text-sm text-neutral-300">{publication.data.title}</li>)}
-          </ul>
-        ) : (
-          <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
-        )
-      }
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
     </article>
 
     <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
       <h2 class="text-base font-semibold text-white">Writing</h2>
-      {
-        writing.length > 0 ? (
-          <ul class="mt-4 space-y-3">
-            {writing.slice(0, 3).map((entry) => <li class="text-sm text-neutral-300">{entry.data.title}</li>)}
-          </ul>
-        ) : (
-          <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
-        )
-      }
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
     </article>
   </section>
 </BaseLayout>
