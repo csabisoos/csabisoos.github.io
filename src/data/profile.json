@@ -1,22 +1,18 @@
 {
   "name": "Csaba Soós",
-  "title": "Software Engineer & Computer Science Student / Researcher",
-  "roles": [
-    "ELTE Computer Science Student",
-    "Software Engineering Focus",
-    "Applied Systems Research"
-  ],
-  "shortBio": "I build reliable software systems and applied research tooling with a focus on quality, performance, and maintainability.",
-  "location": "San Sebastián / Budapest",
+  "title": "Software Engineer & Computer Science Researcher",
+  "shortBio": "Focused on robust software engineering, intelligent systems, and scalable architectures.",
+  "location": "Budapest, Hungary",
   "focusAreas": [
-    "Software Engineering",
-    "Distributed Systems",
-    "Developer Tooling",
-    "Reliable AI Systems"
+    "Intelligent Systems",
+    "Natural Language Processing (NLP)",
+    "Reinforcement Learning",
+    "Deep Reinforcement Learning",
+    "Business Analysis"
   ],
-  "statusBadge": "🟢 Open to projects",
   "contact": {
-    "email": "mailto:csabi.soos.05@gmail.com"
+    "email": "mailto:csabi.soos.05@gmail.com",
+    "cv": "/cv.pdf"
   },
   "socialProfiles": [
     {
@@ -26,23 +22,45 @@
     },
     {
       "name": "LinkedIn",
-      "url": "https://www.linkedin.com/in/csaba-soós-4b55a93a3/",
+      "url": "https://www.linkedin.com/in/csaba-so%C3%B3s-4b55a93a3",
       "icon": "linkedin"
     },
     {
-      "name": "Google Scholar",
-      "url": "https://scholar.google.com",
-      "icon": "scholar"
+      "name": "Instagram",
+      "url": "https://instagram.com/csabisoos",
+      "icon": "instagram"
     },
     {
-      "name": "ORCID",
-      "url": "https://orcid.org/0009-0007-2512-0470",
-      "icon": "orcid"
+      "name": "Email",
+      "url": "mailto:csabi.soos.05@gmail.com",
+      "icon": "email"
     },
     {
-      "name": "X",
-      "url": "https://x.com/csabisoos",
-      "icon": "x"
+      "name": "CV",
+      "url": "/cv.pdf",
+      "icon": "cv"
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer Intern",
+      "organization": "B. Braun",
+      "period": "2024 – Present",
+      "focus": "C#, .NET ecosystem, modern desktop UI architectures, healthcare systems engineering, and asynchronous pipelines."
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc in Computer Science (Software Development specialization)",
+      "institution": "Eötvös Loránd University (ELTE IK), Budapest",
+      "period": "2024 – Present",
+      "focus": "Software engineering foundations, systems design, and production-oriented development."
+    },
+    {
+      "degree": "Academic Studies Exchange",
+      "institution": "University of the Basque Country (UPV/EHU)",
+      "period": "2024 – Present",
+      "focus": "Intelligent Systems, Deep Reinforcement Learning, and Natural Language Processing."
     }
   ]
 }
