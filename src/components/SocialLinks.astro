@@ -20,17 +20,9 @@ const icons: Record<SocialProfile['icon'], { viewBox: string; path: string }> = 
     viewBox: '0 0 24 24',
     path: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5ZM17.75 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 6Z',
   },
-  scholar: {
+  cv: {
     viewBox: '0 0 24 24',
-    path: 'M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm0 14-7-3.82V17l7 4 7-4v-3.82L12 17Z',
-  },
-  orcid: {
-    viewBox: '0 0 24 24',
-    path: 'M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2ZM8.33 7.5a1.17 1.17 0 1 1-1.17 1.17A1.17 1.17 0 0 1 8.33 7.5ZM7.3 10.5h2.07v6H7.3Zm4 0h3.46a2.7 2.7 0 0 1 0 5.4h-1.4v1.6H11.3Zm2.06 1.75v1.9h1.17a.95.95 0 0 0 0-1.9Z',
-  },
-  x: {
-    viewBox: '0 0 24 24',
-    path: 'M18.9 2H22l-6.77 7.74L23 22h-6.1l-4.78-6.24L6.64 22H3.5l7.24-8.27L1 2h6.25l4.32 5.72L18.9 2Zm-1.07 18h1.69L6.33 3.89H4.52L17.83 20Z',
+    path: 'M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v1.5H8V12Zm0 3h8v1.5H8V15Zm0 3h5v1.5H8V18Z',
   },
   email: {
     viewBox: '0 0 24 24',
@@ -43,20 +35,20 @@ const icons: Record<SocialProfile['icon'], { viewBox: string; path: string }> = 
 };
 ---
 
-<ul class="flex flex-wrap gap-3" aria-label="Social links">
+<ul class="flex flex-wrap gap-2" aria-label="Social links">
   {
     profiles.map((profile) => (
       <li>
         <a
           href={profile.url}
-          class="inline-flex items-center gap-2 rounded-md border border-neutral-800 bg-neutral-900/70 px-3 py-2 text-sm text-neutral-200 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-teal-300/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300/70"
+          class="group inline-flex items-center gap-2 rounded-full border border-neutral-800/70 bg-neutral-900/35 px-3 py-2 font-mono text-xs tracking-tight text-neutral-300 no-underline backdrop-blur-sm transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400/60"
           rel="noreferrer"
-          target="_blank"
+          target={profile.url.startsWith('mailto:') || profile.url.startsWith('/') ? undefined : '_blank'}
         >
-          <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" viewBox={icons[profile.icon]?.viewBox ?? '0 0 24 24'}>
+          <svg aria-hidden="true" class="h-4 w-4 text-neutral-400 transition-colors duration-200 group-hover:text-neutral-100" fill="currentColor" viewBox={icons[profile.icon]?.viewBox ?? '0 0 24 24'}>
             <path d={icons[profile.icon]?.path ?? icons.link.path} />
           </svg>
-          <span>{profile.name}</span>
+          <span class="transition-transform duration-200 group-hover:translate-x-0.5">{profile.name}</span>
         </a>
       </li>
     ))

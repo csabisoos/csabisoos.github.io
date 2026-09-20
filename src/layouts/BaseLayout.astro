@@ -28,7 +28,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
   </head>
   <body class="min-h-screen bg-neutral-950 text-neutral-100">
-    <div aria-hidden="true" class="ambient-grid fixed inset-0 -z-10" />
+    <div aria-hidden="true" class="ambient-radial fixed inset-0 -z-20" />
+    <div aria-hidden="true" class="ambient-dot fixed inset-0 -z-10" />
     <main class="mx-auto w-full max-w-6xl px-6 pb-16 md:px-12">
       <slot />
     </main>
