@@ -1,18 +1,22 @@
 {
   "name": "Csaba Soós",
-  "title": "Software Engineer & Computer Science Researcher",
-  "affiliation": "Independent Research / Systems Engineering",
-  "shortBio": "I build performant software systems and conduct applied research spanning distributed systems, developer tooling, and production-grade ML systems.",
-  "location": "Budapest, Hungary",
+  "title": "Software Engineer & Computer Science Student / Researcher",
+  "roles": [
+    "ELTE Computer Science Student",
+    "Software Engineering Focus",
+    "Applied Systems Research"
+  ],
+  "shortBio": "I build reliable software systems and applied research tooling with a focus on quality, performance, and maintainability.",
+  "location": "San Sebastián / Budapest",
   "focusAreas": [
+    "Software Engineering",
     "Distributed Systems",
-    "Performance Engineering",
-    "Research Tooling",
+    "Developer Tooling",
     "Reliable AI Systems"
   ],
+  "statusBadge": "🟢 Open to projects",
   "contact": {
-    "email": "mailto:csabi.soos.005@gmail.com",
-    "cvPath": "/cv.pdf"
+    "email": "mailto:csabi.soos.005@gmail.com"
   },
   "socialProfiles": [
     {
