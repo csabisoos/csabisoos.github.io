@@ -1,181 +1,76 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import profileData from '../data/profile.json';
 import type { Profile } from '../types/profile';
 
 const profile = profileData as Profile;
-
-const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const publications = (await getCollection('publications')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const writing = (await getCollection('writing')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-
-const latestCandidates = [
-  projects[0] ? { type: 'Project', item: projects[0], date: projects[0].data.pubDate } : null,
-  publications[0] ? { type: 'Publication', item: publications[0], date: publications[0].data.pubDate } : null,
-  writing[0] ? { type: 'Writing', item: writing[0], date: writing[0].data.pubDate } : null,
-].filter(Boolean);
-
-const latest = latestCandidates.sort((a, b) => b!.date.valueOf() - a!.date.valueOf())[0];
 ---
 
-<BaseLayout title={`${profile.name} — Portfolio`} description={profile.shortBio}>
-  <header class="space-y-4 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-    <p class="prompt">~/home <span class="cursor">▍</span></p>
-    <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">{profile.name}</h1>
-    <p class="text-lg text-zinc-700 dark:text-zinc-300">{profile.title}</p>
-    <p class="max-w-3xl text-zinc-600 dark:text-zinc-400">{profile.shortBio}</p>
-    <p class="font-mono text-sm text-zinc-500">{profile.affiliation} · {profile.location}</p>
-    <div class="flex flex-wrap gap-2">
+<BaseLayout title={profile.name} description={profile.shortBio}>
+  <header class="sticky top-0 z-30 -mx-6 mb-10 border-b border-neutral-800/60 bg-neutral-950/70 px-6 py-4 backdrop-blur-md md:-mx-12 md:px-12">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4">
+      <p class="font-mono text-sm text-neutral-300">csabisoos://portfolio</p>
+      <div class="flex items-center gap-3">
+        <a class="text-sm text-neutral-300 hover:text-white" href={profile.contact.email}>Email</a>
+        <span class="rounded-full border border-neutral-700 bg-neutral-900/80 px-3 py-1 text-xs text-neutral-200">
+          {profile.statusBadge}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <section class="rounded-2xl border border-neutral-800/70 bg-neutral-900/50 p-8 shadow-[0_0_0_1px_rgba(38,38,38,0.3)]">
+    <p class="mb-3 inline-flex rounded-full border border-teal-300/40 bg-teal-400/10 px-3 py-1 font-mono text-xs text-teal-200">
+      {profile.location}
+    </p>
+    <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">{profile.name}</h1>
+    <p class="mt-3 text-lg text-neutral-200">{profile.title}</p>
+    <p class="mt-4 max-w-3xl text-neutral-400">{profile.shortBio}</p>
+
+    <div class="mt-6 flex flex-wrap gap-2">
       {
-        profile.focusAreas.map((area) => (
-          <span class="rounded border border-neutral-200 px-2 py-1 font-mono text-xs dark:border-neutral-800">{area}</span>
+        profile.roles.map((role) => (
+          <span class="rounded-md border border-neutral-700/70 bg-neutral-950/60 px-3 py-1 font-mono text-xs text-neutral-300">
+            {role}
+          </span>
         ))
       }
     </div>
-    <nav class="flex flex-wrap items-center gap-4" aria-label="Primary contact links">
-      <a href={profile.contact.email}>email</a>
-      <a href={profile.contact.cvPath}>cv</a>
-    </nav>
-    <SocialLinks profiles={profile.socialProfiles} />
-  </header>
 
-  <section class="mt-8 space-y-4 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-    <h2 class="text-xl font-semibold">Latest Track</h2>
-    {
-      latest ? (
-        <article class="space-y-2">
-          <p class="prompt">&gt;/{latest.type.toLowerCase()}/latest</p>
-          <h3 class="text-lg font-medium">{latest.item.data.title}</h3>
-          <p class="text-zinc-600 dark:text-zinc-400">
-            {'description' in latest.item.data
-              ? latest.item.data.description
-              : 'summary' in latest.item.data
-                ? latest.item.data.summary
-                : latest.item.data.abstract}
-          </p>
-        </article>
-      ) : (
-        <p class="text-zinc-600 dark:text-zinc-400">No items found yet.</p>
-      )
-    }
-  </section>
-
-  <section class="mt-8 space-y-4 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-    <h2 class="text-xl font-semibold">Research & Publications</h2>
-    <p class="prompt">&gt;/research/publications</p>
-    <ul class="space-y-4">
+    <div class="mt-4 flex flex-wrap gap-2">
       {
-        publications.map((publication) => (
-          <li class="rounded border border-neutral-200 p-4 dark:border-neutral-800">
-            <article class="space-y-2">
-              <h3 class="text-lg font-medium">{publication.data.title}</h3>
-              <p class="font-mono text-xs text-zinc-500">
-                {publication.data.authors.join(', ')} · {publication.data.venue} · {publication.data.year}
-              </p>
-              <details class="group">
-                <summary class="cursor-pointer text-sm text-zinc-700 marker:text-zinc-500 dark:text-zinc-300">
-                  Abstract
-                </summary>
-                <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{publication.data.abstract}</p>
-              </details>
-              <div class="flex flex-wrap gap-3 text-sm">
-                <a href={publication.data.pdfUrl} target="_blank" rel="noreferrer">
-                  PDF
-                </a>
-                <button
-                  class="font-mono text-xs"
-                  data-bibtex={publication.data.bibtex}
-                  type="button"
-                >
-                  Copy BibTeX
-                </button>
-              </div>
-            </article>
-          </li>
+        profile.focusAreas.map((area) => (
+          <span class="rounded-md border border-neutral-800/70 px-3 py-1 text-xs text-neutral-400">{area}</span>
         ))
       }
-    </ul>
+    </div>
+
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <a
+        href={profile.contact.email}
+        class="inline-flex items-center rounded-md border border-neutral-700 bg-neutral-900/80 px-4 py-2 text-sm text-neutral-100 no-underline hover:border-teal-300/50 hover:text-white"
+      >
+        {profile.contact.email.replace('mailto:', '')}
+      </a>
+      <SocialLinks profiles={profile.socialProfiles} />
+    </div>
   </section>
 
-  <section class="mt-8 space-y-4 border-b border-neutral-200 pb-8 dark:border-neutral-800">
-    <h2 class="text-xl font-semibold">Selected Projects & Tools</h2>
-    <p class="prompt">&gt;/projects/featured</p>
-    <ul class="grid gap-4 sm:grid-cols-2">
-      {
-        projects.map((project) => (
-          <li class="rounded border border-neutral-200 p-4 dark:border-neutral-800">
-            <article class="space-y-3">
-              <h3 class="text-lg font-medium">{project.data.title}</h3>
-              <p class="text-sm text-zinc-600 dark:text-zinc-400">{project.data.description}</p>
-              <p class="font-mono text-xs text-zinc-500">Role: {project.data.role}</p>
-              <ul class="flex flex-wrap gap-2">
-                {project.data.stack.map((tech) => <li class="font-mono text-xs">#{tech}</li>)}
-              </ul>
-              <ul class="space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
-                {project.data.metrics.map((metric) => <li>• {metric}</li>)}
-              </ul>
-              <div class="flex flex-wrap gap-3 text-sm">
-                <a href={project.data.githubUrl} target="_blank" rel="noreferrer">
-                  Repository
-                </a>
-                {project.data.liveDemoUrl && (
-                  <a href={project.data.liveDemoUrl} target="_blank" rel="noreferrer">
-                    Live Demo
-                  </a>
-                )}
-              </div>
-            </article>
-          </li>
-        ))
-      }
-    </ul>
+  <section class="mt-10 grid gap-6 md:grid-cols-3">
+    <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
+      <h2 class="text-base font-semibold text-white">Selected Projects</h2>
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
+    </article>
+
+    <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
+      <h2 class="text-base font-semibold text-white">Academic Work</h2>
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
+    </article>
+
+    <article class="rounded-xl border border-neutral-800/70 bg-neutral-900/40 p-5">
+      <h2 class="text-base font-semibold text-white">Writing</h2>
+      <p class="mt-4 text-sm text-neutral-500">No verified entries yet.</p>
+    </article>
   </section>
-
-  <section class="mt-8 space-y-4">
-    <h2 class="text-xl font-semibold">Writing / Research Log</h2>
-    <p class="prompt">&gt;/writing/chronological</p>
-    <ul class="space-y-3">
-      {
-        writing.map((entry) => (
-          <li class="rounded border border-neutral-200 p-4 dark:border-neutral-800">
-            <article class="space-y-2">
-              <h3 class="text-base font-medium">{entry.data.title}</h3>
-              <p class="text-sm text-zinc-600 dark:text-zinc-400">{entry.data.summary}</p>
-              <p class="font-mono text-xs text-zinc-500">
-                {entry.data.pubDate.toLocaleDateString('en-GB')} · {entry.data.tags.join(', ')}
-              </p>
-            </article>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <footer class="mt-12 border-t border-neutral-200 pt-6 text-sm text-zinc-500 dark:border-neutral-800">
-    <p>© {new Date().getFullYear()} {profile.name}. Released under MIT-compatible terms.</p>
-    <p class="font-mono text-xs">analytics: strictly vibes + maybe one anonymous page view.</p>
-  </footer>
-
-  <script>
-    const buttons = document.querySelectorAll('button[data-bibtex]');
-    buttons.forEach((button) => {
-      button.addEventListener('click', async () => {
-        const value = button.getAttribute('data-bibtex') || '';
-        await navigator.clipboard.writeText(value);
-        const previous = button.textContent;
-        button.textContent = 'Copied!';
-        setTimeout(() => {
-          button.textContent = previous;
-        }, 1200);
-      });
-    });
-  </script>
 </BaseLayout>

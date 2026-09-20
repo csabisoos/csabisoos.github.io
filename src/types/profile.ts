@@ -7,13 +7,13 @@ export interface SocialProfile {
 export interface Profile {
   name: string;
   title: string;
-  affiliation: string;
+  roles: string[];
   shortBio: string;
   location: string;
   focusAreas: string[];
+  statusBadge: string;
   contact: {
     email: string;
-    cvPath: string;
   };
   socialProfiles: SocialProfile[];
 }
