@@ -1,0 +1,44 @@
+{
+  "name": "Csaba Sisoos",
+  "title": "Software Engineer & Computer Science Researcher",
+  "affiliation": "Independent Research / Systems Engineering",
+  "shortBio": "I build performant software systems and conduct applied research spanning distributed systems, developer tooling, and production-grade ML systems.",
+  "location": "Budapest, Hungary",
+  "focusAreas": [
+    "Distributed Systems",
+    "Performance Engineering",
+    "Research Tooling",
+    "Reliable AI Systems"
+  ],
+  "contact": {
+    "email": "mailto:csaba@example.com",
+    "cvPath": "/cv.pdf"
+  },
+  "socialProfiles": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/csabisoos",
+      "icon": "github"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com/in/csabisoos",
+      "icon": "linkedin"
+    },
+    {
+      "name": "Google Scholar",
+      "url": "https://scholar.google.com",
+      "icon": "scholar"
+    },
+    {
+      "name": "ORCID",
+      "url": "https://orcid.org",
+      "icon": "orcid"
+    },
+    {
+      "name": "X",
+      "url": "https://x.com/csabisoos",
+      "icon": "x"
+    }
+  ]
+}
