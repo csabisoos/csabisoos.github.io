@@ -3,14 +3,15 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import MederiShowcase from '../components/MederiShowcase.astro';
+import PromptShellShowcase from '../components/PromptShellShowcase.astro';
 import profileData from '../data/profile.json';
 import type { Profile } from '../types/profile';
 
 const profile = profileData as Profile;
 
-// Load the featured project (Mederi)
 const allProjects = await getCollection('projects');
-const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[0];
+const mederi      = allProjects.find((p) => p.slug === 'mederi');
+const promptshell = allProjects.find((p) => p.slug === 'promptshell');
 ---
 
 <BaseLayout title={profile.name} description={profile.shortBio}>
@@ -21,10 +22,7 @@ const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[
       aria-label="Site navigation"
       class="mx-auto flex w-full items-center justify-between rounded-full border border-zinc-800/60 bg-zinc-950/80 px-5 py-2.5 backdrop-blur-md"
     >
-      <!-- Brand -->
       <p class="mono text-xs tracking-tight text-zinc-400">csabisoos://portfolio</p>
-
-      <!-- Nav links -->
       <div class="flex items-center gap-1">
         <a class="nav-pill no-underline" href="#projects">Projects</a>
         <a class="nav-pill no-underline" href="#focus">Focus</a>
@@ -36,7 +34,6 @@ const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[
 
   <!-- ─── Hero / Profile ───────────────────────────────────────────── -->
   <section aria-labelledby="hero-name" class="animate-fade-in-up">
-    <!-- Top row: location + availability -->
     <div class="flex flex-wrap items-center gap-2.5">
       <span class="mono inline-flex items-center gap-1.5 rounded-full border border-zinc-800/60 bg-zinc-950/70 px-3 py-1 text-xs text-zinc-400">
         <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
@@ -52,7 +49,6 @@ const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[
       )}
     </div>
 
-    <!-- Name + title -->
     <h1 id="hero-name" class="mt-5 text-5xl font-bold tracking-tight text-white sm:text-6xl">
       {profile.name}
     </h1>
@@ -63,42 +59,50 @@ const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[
       {profile.shortBio}
     </p>
 
-    <!-- Social links -->
     <div class="mt-7">
       <SocialLinks profiles={profile.socialProfiles} />
     </div>
   </section>
 
-  <!-- ─── Featured Project: Mederi ────────────────────────────────── -->
-  {featuredProject && (
-    <section id="projects" class="mt-14">
-      <div class="mb-5 flex items-center justify-between">
-        <p class="section-label">Featured Project</p>
-        <a href="/projects/mederi" class="mono text-xs text-zinc-500 hover:text-zinc-300 no-underline transition-colors">
-          View all →
-        </a>
+  <!-- ─── Projects ────────────────────────────────────────────────── -->
+  <section id="projects" class="mt-14">
+    <div class="mb-5 flex items-center justify-between">
+      <p class="section-label">Projects</p>
+      <span class="mono text-xs text-zinc-600">{allProjects.length} total</span>
+    </div>
+
+    <!-- Mederi — featured full-width -->
+    {mederi && (
+      <div class="animate-fade-in-up delay-100">
+        <MederiShowcase project={mederi} />
       </div>
-      <MederiShowcase project={featuredProject} />
-    </section>
-  )}
+    )}
+
+    <!-- PromptShell — second project -->
+    {promptshell && (
+      <div class="mt-5 animate-fade-in-up delay-200">
+        <PromptShellShowcase project={promptshell} />
+      </div>
+    )}
+  </section>
 
   <!-- ─── Expertise & Focus ────────────────────────────────────────── -->
-  <section id="focus" class="mt-14 animate-fade-in-up delay-300">
-    <div class="card-glass rounded-3xl p-8 md:p-10">
+  <section id="focus" class="mt-10 animate-fade-in-up delay-300">
+    <div class="card-glass rounded-3xl p-7 md:p-8">
       <div class="flex flex-wrap items-center justify-between gap-4">
-        <h2 class="text-2xl font-semibold tracking-tight text-white">Expertise & Focus Areas</h2>
+        <h2 class="text-xl font-semibold tracking-tight text-white">Expertise & Focus Areas</h2>
         <span class="mono text-xs text-zinc-500">Academic: UPV/EHU · 2026–2027</span>
       </div>
 
-      <div class="mt-6 flex flex-wrap gap-2.5">
+      <div class="mt-5 flex flex-wrap gap-2">
         {profile.focusAreas.map((area) => (
           <span class="tag">{area}</span>
         ))}
       </div>
 
       {profile.techStack && profile.techStack.length > 0 && (
-        <div class="mt-8">
-          <p class="section-label mb-4">Technology Stack</p>
+        <div class="mt-6">
+          <p class="section-label mb-3">Technology Stack</p>
           <div class="flex flex-wrap gap-2">
             {profile.techStack.map((tech) => (
               <span class="tag tag-emerald">{tech}</span>
@@ -110,36 +114,34 @@ const featuredProject = allProjects.find((p) => p.data.featured) ?? allProjects[
   </section>
 
   <!-- ─── Career & Academic Track ─────────────────────────────────── -->
-  <section id="track" class="mt-10 animate-fade-in-up delay-400">
-    <div class="card-glass rounded-3xl p-8 md:p-10">
-      <h2 class="text-2xl font-semibold tracking-tight text-white">Career & Academic Track</h2>
+  <section id="track" class="mt-5 animate-fade-in-up delay-400">
+    <div class="card-glass rounded-3xl p-7 md:p-8">
+      <h2 class="text-xl font-semibold tracking-tight text-white">Career & Academic Track</h2>
 
-      <div class="mt-8 grid gap-8 lg:grid-cols-2">
-        <!-- Experience column -->
+      <div class="mt-6 grid gap-6 lg:grid-cols-2">
         <div>
-          <p class="section-label mb-4">Experience</p>
+          <p class="section-label mb-3">Experience</p>
           <div class="space-y-3">
             {profile.experience.map((entry) => (
-              <article class="pillar-card rounded-2xl p-5">
+              <article class="pillar-card rounded-2xl p-4">
                 <p class="mono text-xs text-zinc-500">{entry.period}</p>
-                <h3 class="mt-2 text-base font-semibold tracking-tight text-white">{entry.role}</h3>
-                <p class="mono mt-1 text-xs text-zinc-300">{entry.organization}</p>
-                <p class="mt-3 text-sm leading-relaxed text-zinc-400">{entry.focus}</p>
+                <h3 class="mt-1.5 text-sm font-semibold tracking-tight text-white">{entry.role}</h3>
+                <p class="mono mt-0.5 text-xs text-zinc-300">{entry.organization}</p>
+                <p class="mt-2 text-xs leading-relaxed text-zinc-400">{entry.focus}</p>
               </article>
             ))}
           </div>
         </div>
 
-        <!-- Education column -->
         <div>
-          <p class="section-label mb-4">Education</p>
+          <p class="section-label mb-3">Education</p>
           <div class="space-y-3">
             {profile.education.map((entry) => (
-              <article class="pillar-card rounded-2xl p-5">
+              <article class="pillar-card rounded-2xl p-4">
                 <p class="mono text-xs text-zinc-500">{entry.period}</p>
-                <h3 class="mt-2 text-base font-semibold tracking-tight text-white">{entry.degree}</h3>
-                <p class="mono mt-1 text-xs text-zinc-300">{entry.institution}</p>
-                <p class="mt-3 text-sm leading-relaxed text-zinc-400">{entry.focus}</p>
+                <h3 class="mt-1.5 text-sm font-semibold tracking-tight text-white">{entry.degree}</h3>
+                <p class="mono mt-0.5 text-xs text-zinc-300">{entry.institution}</p>
+                <p class="mt-2 text-xs leading-relaxed text-zinc-400">{entry.focus}</p>
               </article>
             ))}
           </div>
