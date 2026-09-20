@@ -32,6 +32,11 @@ const projects = defineCollection({
       outcome: z.enum(['clear', 'alert', 'critical']),
       summary: z.string(),
     })).optional(),
+    screenshots: z.array(z.object({
+      url:         z.string(),
+      caption:     z.string(),
+      description: z.string().optional(),
+    })).optional(),
   }),
 });
 

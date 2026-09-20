@@ -71,6 +71,38 @@ const metrics = data.metrics ?? [];
     </div>
   )}
 
+  <!-- UI Screenshot Preview Window -->
+  <div class="mt-6 rounded-2xl overflow-hidden border border-zinc-800/80 bg-zinc-950/70 shadow-xl group">
+    <div class="flex items-center justify-between px-3.5 py-2 border-b border-zinc-800/60 bg-zinc-900/60">
+      <div class="flex items-center gap-1.5">
+        <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f56]/80"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]/80"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#27c93f]/80"></span>
+      </div>
+      <span class="mono text-[11px] text-zinc-400 font-medium">PromptShell Autobot · Live Desktop Interface</span>
+      <a href={`/projects/${project.slug}`} class="mono text-[11px] text-violet-400 hover:text-violet-300 no-underline transition-colors">
+        Full walkthrough →
+      </a>
+    </div>
+    <a href={`/projects/${project.slug}`} class="block relative max-h-52 sm:max-h-60 overflow-hidden" aria-label="Open PromptShell full view">
+      <img
+        src="/assets/projects/promptshell/promptshell-action-card.jpg"
+        alt="PromptShell Autobot Desktop Interface Preview"
+        class="w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
+      <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between pointer-events-none">
+        <span class="mono text-[11px] text-zinc-300 bg-zinc-950/80 border border-zinc-800/80 px-2.5 py-1 rounded-md backdrop-blur-sm">
+          Multi-Tier Safety Guard: Intercepting destructive commands
+        </span>
+        <span class="hidden sm:inline-flex mono text-[11px] text-violet-300 bg-violet-950/80 border border-violet-800/50 px-2.5 py-1 rounded-md backdrop-blur-sm">
+          Avalonia UI · .NET 9
+        </span>
+      </div>
+    </a>
+  </div>
+
   <!-- Architecture pillars (compact 3-col) -->
   {pillars.length > 0 && (
     <div class="mt-6">

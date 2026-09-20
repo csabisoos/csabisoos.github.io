@@ -18,9 +18,12 @@ const { project } = Astro.props;
 const { data } = project;
 const { Content } = await project.render();
 
-const pillars = data.architecturePillars ?? [];
-const scenarios = data.scenarios ?? [];
-const metrics   = data.metrics ?? [];
+const pillars     = data.architecturePillars ?? [];
+const scenarios   = data.scenarios ?? [];
+const metrics     = data.metrics ?? [];
+const screenshots = data.screenshots ?? [];
+const isPurple    = project.slug === 'promptshell';
+const accentColor = isPurple ? '#c4b5fd' : '#6ee7b7';
 ---
 
 <BaseLayout
@@ -74,7 +77,7 @@ const metrics   = data.metrics ?? [];
     </div>
 
     <h1 class="mt-5 text-4xl font-bold tracking-tight text-white md:text-5xl">{data.title}</h1>
-    <p class="mt-2 text-xl font-medium tracking-tight" style="color: #6ee7b7;">{data.subtitle}</p>
+    <p class="mt-2 text-xl font-medium tracking-tight" style={`color: ${accentColor};`}>{data.subtitle}</p>
     <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">{data.description}</p>
 
     <!-- Action buttons -->
@@ -130,7 +133,7 @@ const metrics   = data.metrics ?? [];
   <!-- Demo scenarios -->
   {scenarios.length > 0 && (
     <section class="mt-10 animate-fade-in-up delay-300">
-      <p class="section-label mb-5">Clinical Demo Scenarios</p>
+      <p class="section-label mb-5">{isPurple ? "Execution & Safety Scenarios" : "Clinical Demo Scenarios"}</p>
       <div class="space-y-3">
         {scenarios.map((scenario, i) => (
           <div class="card-glass rounded-2xl p-5">
@@ -144,6 +147,71 @@ const metrics   = data.metrics ?? [];
               </div>
             </div>
           </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Application Interface Screenshots -->
+  {screenshots.length > 0 && (
+    <section class="mt-14 animate-fade-in-up delay-350">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <p class="section-label mb-1">Application Interface</p>
+          <h2 class="text-2xl font-bold tracking-tight text-white">Visual Walkthrough & Live Runtime</h2>
+        </div>
+        <span class="mono text-xs text-zinc-400 border border-zinc-800/80 rounded-full px-3 py-1 bg-zinc-900/50">
+          {screenshots.length} App Screenshots
+        </span>
+      </div>
+
+      <div class="space-y-8">
+        {screenshots.map((s, index) => (
+          <figure class="card-glass rounded-3xl overflow-hidden border border-zinc-800/80 shadow-2xl bg-zinc-950/80 group">
+            <!-- macOS Window Header Bar -->
+            <div class="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800/80 bg-zinc-900/70 backdrop-blur-md">
+              <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full bg-[#ff5f56] border border-[#e0443e]/40 shadow-sm"></span>
+                <span class="h-3 w-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/40 shadow-sm"></span>
+                <span class="h-3 w-3 rounded-full bg-[#27c93f] border border-[#1aab29]/40 shadow-sm"></span>
+              </div>
+              <p class="mono text-xs text-zinc-300 font-medium">PromptShell Autobot — {s.caption}</p>
+              <span class="mono text-[11px] text-zinc-500 uppercase tracking-widest">FIG. {index + 1}</span>
+            </div>
+
+            <!-- Screenshot Image Container -->
+            <a href={s.url} target="_blank" rel="noopener noreferrer" class="block relative overflow-hidden bg-black/50">
+              <img
+                src={s.url}
+                alt={s.caption}
+                class="w-full h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-[1.01]"
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+              <div class="absolute inset-0 bg-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex items-center justify-center">
+                <span class="mono text-xs text-white bg-zinc-950/80 border border-violet-500/40 px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
+                  🔍 Click to view full resolution
+                </span>
+              </div>
+            </a>
+
+            <!-- Caption / Tech Notes -->
+            <figcaption class="p-5 md:p-6 border-t border-zinc-800/80 bg-zinc-900/40">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div class="max-w-2xl">
+                  <h3 class="text-base font-semibold text-white tracking-tight">{s.caption}</h3>
+                  {s.description && (
+                    <p class="mt-1.5 text-xs text-zinc-400 leading-relaxed">{s.description}</p>
+                  )}
+                </div>
+                <a href={s.url} target="_blank" rel="noopener noreferrer" class="mono text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1 shrink-0">
+                  Open image
+                  <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </a>
+              </div>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </section>

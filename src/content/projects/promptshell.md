@@ -59,6 +59,13 @@ scenarios:
     title: "Command contains rm or sudo"
     outcome: "alert"
     summary: "Multi-tier safety guard intercepts the generated command. Execution is paused and the user is shown the exact command with a manual approval prompt. The raw terminal output and exit code are then interpreted back into human-readable feedback."
+screenshots:
+  - url: "/assets/projects/promptshell/promptshell-action-card.jpg"
+    caption: "Safety Guard Action Card & Timeline UI"
+    description: "Multi-tier safety interception pausing execution for user approval on destructive keywords ('rm -rf ./bin ./obj') alongside active directory tracking and expandable terminal logs."
+  - url: "/assets/projects/promptshell/promptshell-rag-verification.jpg"
+    caption: "RAG System Manual Verification & Code Generation"
+    description: "Deep man-page grounding extracting OS-specific BSD flags ('man find & man grep') ensuring zero hallucinated parameters for macOS Darwin."
 ---
 
 ## The Problem: The CLI Knowledge Gap
@@ -155,14 +162,26 @@ PromptShell's UI is built around a polymorphic chat message model:
 - **`ActionCardChatMessage`** — interactive approval card with `PendingCommand`, `[ Approve ]` and `[ Cancel ]` buttons
 - **`SystemChatMessage`** — status events (directory changed, safety alert triggered)
 
-## Upcoming: The Autobot UI Transformation
+## Desktop Autobot UI Architecture & Walkthrough
 
-The current developer dashboard UI is being replaced by a **full chatbot/bubble interface** (Avalonia XAML redesign):
+PromptShell features a custom dark-themed desktop interface crafted in Avalonia UI (`#121214` palette), replacing intimidating green-screen consoles with a structured, intent-driven conversational timeline.
 
-- **Central bubble chat panel** — clean conversation history (ChatGPT-style)
-- **Interactive action cards** — `🛠️ PromptShell wants to build your project. [ Approve ] [ Cancel ]`
-- **Expander blocks** — `▼ Show raw output / technical details` slides down a dark terminal container
-- **Zero jargon surface** — raw exit codes, green terminals, and process errors hidden from plain sight
+### 1. Safety Guard Action Card & Directory Awareness
+
+![Safety Guard Action Card](/assets/projects/promptshell/promptshell-action-card.jpg)
+*Figure 1: Multi-tier safety interception pausing destructive operations (`rm -rf ./bin ./obj`) for manual approval, with real-time directory tracking and collapsible terminal logs.*
+
+When a generated command contains dangerous patterns (`rm`, `sudo`, `dd`), execution immediately halts:
+- The command is isolated in a monospace preview container.
+- High-contrast **`[ Approve & Run ]`** and **`[ Reject ]`** buttons require conscious user consent.
+- Background execution logs stay cleanly tucked into a collapsible tray for debugging without cluttering the primary user view.
+
+### 2. RAG System Manual Grounding in Practice
+
+![RAG System Manual Grounding](/assets/projects/promptshell/promptshell-rag-verification.jpg)
+*Figure 2: PromptShell verifying flags through system man pages (`man find`, `man grep`), ensuring macOS BSD flags are correctly produced without GNU extensions.*
+
+Whenever complex filters (time ranges, regex matching, piping) are requested, the RAG layer injects verified manual snippets directly into the inference prompt. This guarantees 100% flag validity on the host OS.
 
 ## Platform & Deployment
 
